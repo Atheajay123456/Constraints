@@ -1,0 +1,164 @@
+Copyright (c) 2016, 2025, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \connect root@localhost
+Creating a session to 'root@localhost'
+Fetching schema names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 32 (X protocol)
+Server version: 8.0.43 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:33060+ ssl  JS > \sql
+Switching to SQL mode... Commands end with ;
+Fetching global names for auto-completion... Press ^C to stop.
+ MySQL  localhost:33060+ ssl  SQL > show databases
+                                 -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| institute          |
+| management         |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.0179 sec)
+ MySQL  localhost:33060+ ssl  SQL > create databases EmployeeDetails;
+ERROR: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'databases EmployeeDetails' at line 1
+ MySQL  localhost:33060+ ssl  SQL > create database EmployeeDetails;
+Query OK, 1 row affected (0.0476 sec)
+ MySQL  localhost:33060+ ssl  SQL > use EmployeeDetails
+Default schema set to `EmployeeDetails`.
+Fetching global names, object names from `employeedetails` for auto-completion... Press ^C to stop.
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > create table employee(emp_id int primary key auto_increment,emp_name varchar(20) not null,email varchar(25) unique);
+Query OK, 0 rows affected (0.1332 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > select * from table
+                                                  -> ;
+ERROR: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table' at line 1
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > select * from employee
+                                                  -> ;
+Empty set (0.0228 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > desc employee
+                                                  -> ;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| emp_id   | int         | NO   | PRI | NULL    | auto_increment |
+| emp_name | varchar(20) | NO   |     | NULL    |                |
+| email    | varchar(25) | YES  | UNI | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+3 rows in set (0.0042 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL >
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > alter table employee add(salary bigint,age int check(age>18));
+Query OK, 0 rows affected (0.1432 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > alter table employee add company varchar(20) default '10kcoders';
+Query OK, 0 rows affected (0.1231 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > desc employee;
++----------+-------------+------+-----+-----------+----------------+
+| Field    | Type        | Null | Key | Default   | Extra          |
++----------+-------------+------+-----+-----------+----------------+
+| emp_id   | int         | NO   | PRI | NULL      | auto_increment |
+| emp_name | varchar(20) | NO   |     | NULL      |                |
+| email    | varchar(25) | YES  | UNI | NULL      |                |
+| salary   | bigint      | YES  |     | NULL      |                |
+| age      | int         | YES  |     | NULL      |                |
+| company  | varchar(20) | YES  |     | 10kcoders |                |
++----------+-------------+------+-----+-----------+----------------+
+6 rows in set (0.0049 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > alter table employee modify age bigint not null;
+Query OK, 0 rows affected (0.1404 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > desc employee;
++----------+-------------+------+-----+-----------+----------------+
+| Field    | Type        | Null | Key | Default   | Extra          |
++----------+-------------+------+-----+-----------+----------------+
+| emp_id   | int         | NO   | PRI | NULL      | auto_increment |
+| emp_name | varchar(20) | NO   |     | NULL      |                |
+| email    | varchar(25) | YES  | UNI | NULL      |                |
+| salary   | bigint      | YES  |     | NULL      |                |
+| age      | bigint      | NO   |     | NULL      |                |
+| company  | varchar(20) | YES  |     | 10kcoders |                |
++----------+-------------+------+-----+-----------+----------------+
+6 rows in set (0.0048 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > alter table employee modify email not null;
+ERROR: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'not null' at line 1
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > alter table employee modify email int not null;
+Query OK, 0 rows affected (0.1387 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > alter table employee modify email varchar;
+ERROR: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > alter table employee modify email varchar(25);
+Query OK, 0 rows affected (0.1312 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > insert into employee(emp_name,email,salary,age) values("ajay","ajay@gmail.com",22000,22);
+Query OK, 1 row affected (0.0268 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > select * from employee;
++--------+----------+----------------+--------+-----+-----------+
+| emp_id | emp_name | email          | salary | age | company   |
++--------+----------+----------------+--------+-----+-----------+
+|      1 | ajay     | ajay@gmail.com |  22000 |  22 | 10kcoders |
++--------+----------+----------------+--------+-----+-----------+
+1 row in set (0.0019 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > insert into employee(emp_name,email,salary,age) values("ajay","ajay@gmail.com",22000,22);
+ERROR: 1062: Duplicate entry 'ajay@gmail.com' for key 'employee.email'
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > insert into employee(emp_name,email,salary,age) values("ajay","ajay1@gmail.com",23000,23);
+Query OK, 1 row affected (0.0213 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > select * from employee;
++--------+----------+-----------------+--------+-----+-----------+
+| emp_id | emp_name | email           | salary | age | company   |
++--------+----------+-----------------+--------+-----+-----------+
+|      1 | ajay     | ajay@gmail.com  |  22000 |  22 | 10kcoders |
+|      3 | ajay     | ajay1@gmail.com |  23000 |  23 | 10kcoders |
++--------+----------+-----------------+--------+-----+-----------+
+2 rows in set (0.0013 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > alter table employee drop column emp_id;
+Query OK, 2 rows affected (0.1171 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > alter table employee add column emp_id int primary key auto_increment;
+Query OK, 0 rows affected (0.1746 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > select * from employee;
++----------+-----------------+--------+-----+-----------+--------+
+| emp_name | email           | salary | age | company   | emp_id |
++----------+-----------------+--------+-----+-----------+--------+
+| ajay     | ajay@gmail.com  |  22000 |  22 | 10kcoders |      1 |
+| ajay     | ajay1@gmail.com |  23000 |  23 | 10kcoders |      2 |
++----------+-----------------+--------+-----+-----------+--------+
+2 rows in set (0.0016 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > insert into employee(emp_name,email,salary,age) values("sanjay","sanjay1@gmail.com",23000,23);
+Query OK, 1 row affected (0.0200 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > select * from employee;
++----------+-------------------+--------+-----+-----------+--------+
+| emp_name | email             | salary | age | company   | emp_id |
++----------+-------------------+--------+-----+-----------+--------+
+| ajay     | ajay@gmail.com    |  22000 |  22 | 10kcoders |      1 |
+| ajay     | ajay1@gmail.com   |  23000 |  23 | 10kcoders |      2 |
+| sanjay   | sanjay1@gmail.com |  23000 |  23 | 10kcoders |      3 |
++----------+-------------------+--------+-----+-----------+--------+
+3 rows in set (0.0017 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > insert into employee(emp_name,email,salary,age) values("sanjay","sanjay1@gmail.com",23000,23);
+ERROR: 1062: Duplicate entry 'sanjay1@gmail.com' for key 'employee.email'
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > insert into employee(emp_name,email,salary,age) values("sanjay","sanjay2@gmail.com",23000,23);
+Query OK, 1 row affected (0.0073 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL > select * from employee;
++----------+-------------------+--------+-----+-----------+--------+
+| emp_name | email             | salary | age | company   | emp_id |
++----------+-------------------+--------+-----+-----------+--------+
+| ajay     | ajay@gmail.com    |  22000 |  22 | 10kcoders |      1 |
+| ajay     | ajay1@gmail.com   |  23000 |  23 | 10kcoders |      2 |
+| sanjay   | sanjay1@gmail.com |  23000 |  23 | 10kcoders |      3 |
+| sanjay   | sanjay2@gmail.com |  23000 |  23 | 10kcoders |      5 |
++----------+-------------------+--------+-----+-----------+--------+
+4 rows in set (0.0015 sec)
+ MySQL  localhost:33060+ ssl  employeedetails  SQL >
